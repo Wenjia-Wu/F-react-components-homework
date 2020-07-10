@@ -29,9 +29,16 @@ class Chat extends Component {
   }
 
   addCustomerMessage = (customerMessage) => {
+    const answer = this.addAnswerMessage(customerMessage);
     this.setState((prevState) => ({
-      messages: [...prevState.messages, { text: customerMessage, role: ROLE.CUSTOMER }],
+      messages: [...prevState.messages, { text: customerMessage, role: ROLE.CUSTOMER }, ...answer],
     }));
+  };
+
+  addAnswerMessage = (customerMessage) => {
+    return answersData.filter((item) =>
+      item.tags.some((tag) => tag !== 'DEFAULT' && customerMessage.includes(tag))
+    );
   };
 
   render() {
